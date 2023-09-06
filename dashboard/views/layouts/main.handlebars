@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensor Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <h1>Dados obtidos:</h1>
+    <ul>
+  
+        {{#each sensors}}
+       <li> Temperature: {{this.dataValues.temperatura}} </li>
+        {{/each}}
+        </ul>
+
+<h1>Visualização em gráfico</h1>
+  <canvas id="temperatureChart" width="0.5%" height="10%"></canvas>
+
+  <script>
+    console.log({{this.dataValues.id}})
+    const temperatureData = []
+    const horarioData = []
+     {{#each sensors}}
+       temperatureData.push({{this.dataValues.temperatura}})
+
+        {{/each}}
+
+    const labels = Array.from({ length: temperatureData.length }, (_, i) => `Hour ${i}`);
+
+    const ctx = document.getElementById('temperatureChart').getContext('2d');
+
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Temperature (°C)',
+        data: temperatureData,
+        borderColor: 'blue',
+        borderWidth: 2,
+        fill: false,
+      }],
+    };
+
+    const config = {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true,
+          },
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    };
+
+    new Chart(ctx, config);
+  </script>
+
+</body>
+</html>
