@@ -1,8 +1,17 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const sequelize = new Sequelize("projetoesp", "root", "admin123", {
-  host: "localhost",
-  dialect: "mysql",
+import dotenv from 'dotenv/config.js';
+
+console.log(process.env.POSTGRES_DATABASE)
+
+const sequelize = new Sequelize(process.env.POSTGRES_DATABASE, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+  host: process.env.POSTGRES_HOST,
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true
+    }
+  }
 });
 
 sequelize
