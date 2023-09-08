@@ -1,5 +1,5 @@
 import express from "express";
-import { sequelize, Sensor } from "./connection.js";
+import { sequelize, Sensor } from "./database.js";
 
 import { engine } from 'express-handlebars'
 
