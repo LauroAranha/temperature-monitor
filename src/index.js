@@ -1,11 +1,11 @@
 import express from "express";
 import { sequelize, Sensor } from "./database.js";
 import { engine } from 'express-handlebars';
-import { fileURLToPath } from 'url'; // Import the 'fileURLToPath' function from the 'url' module
+import { fileURLToPath } from 'url';
 import path from 'path';
 
-const __filename = fileURLToPath(import.meta.url); // Get the current module's filename
-const __dirname = path.dirname(__filename); // Get the directory name of the current module's filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -15,8 +15,7 @@ console.log("funciona pfv");
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
-// Use __dirname to specify the views directory
-app.set('views', path.join(__dirname, 'views')); // Assuming 'views' is a subdirectory in the same folder as this script
+app.set('views', path.join(__dirname, 'views/'));
 
 sequelize.sync().then(() => {
   console.log("Database synchronized");
