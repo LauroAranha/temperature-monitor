@@ -2,6 +2,8 @@ import { Sequelize, DataTypes } from "sequelize";
 
 import dotenv from 'dotenv/config.js';
 
+import pg from 'pg'
+
 console.log(process.env.POSTGRES_DATABASE)
 
 const sequelize = new Sequelize(process.env.POSTGRES_DATABASE, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
