@@ -18,7 +18,7 @@ const long interval = 600000;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(rele, OUTPUT);
+  pinMode(relay, OUTPUT);
   Serial.println("NodeMCU - Monitor de temperatura");
   Serial.println("Aguardando conexão");
 
