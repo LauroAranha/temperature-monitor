@@ -10,6 +10,7 @@ const int http_port = 443;
 const char* http_path = "/cadastrar"; 
 
 int pinDHT11 = D0;
+int relay = D1;
 SimpleDHT11 dht11;
 
 unsigned long previousMillis = 0;
@@ -17,7 +18,8 @@ const long interval = 600000;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("NodeMCU - Gravando dados no BD via GET");
+  pinMode(rele, OUTPUT);
+  Serial.println("NodeMCU - Monitor de temperatura");
   Serial.println("Aguardando conexão");
 
   // Connect to Wi-Fi
@@ -42,15 +44,23 @@ void loop() {
       return;
     }
 
-    Serial.println("Gravando dados no BD: ");
+    Serial.println("Sucesso na leitura do leitor, gravandao dados no banco de dados!");
     Serial.print((int)temp);
     Serial.print(" *C, ");
     Serial.print((int)humid);
     Serial.println(" %");
 
     if (!sendDataToServer((int)temp, (int)humid)) {
-      Serial.println("GET request failed");
+      Serial.println("Falha na requisição.");
+      return;
     }
+
+    if ((int)temp >= 20){
+      digitalWrite(relay, HIGH);
+      return
+    }
+
+    digitalWrite(relay, LOW);
   }
 }
 
@@ -60,16 +70,16 @@ bool sendDataToServer(int temp, int humid) {
 
   String url = "https://" + String(http_site) + http_path + "?umidade=" + String(humid) + "&temperatura=" + String(temp);
 
-  Serial.println("fazendo request");
+  Serial.println("Fazendo request: ");
   Serial.println(url);
 
 
   if (client.connect(http_site, http_port)) {
-    Serial.println("conectado ao cliente");
+    Serial.println("Conectado ao cliente:");
     client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + http_site + "\r\n" + "Connection: close\r\n\r\n");
 
     while (client.connected()) {
-      Serial.println("esperando por resposta do servidor");
+      Serial.println("Esperando por resposta do servidor");
       String line = client.readStringUntil('\n');
       if (line == "\r") {
         break;
@@ -77,12 +87,12 @@ bool sendDataToServer(int temp, int humid) {
     }
 
     while (client.available()) {
-      Serial.println("esperando resto da resposta");
+      Serial.println("Esperando resto da resposta");
       String line = client.readStringUntil('\n');
       Serial.println(line);
     }
 
-    Serial.println("concluído");
+    Serial.println("Concluído");
 
     client.stop();
     return true;
