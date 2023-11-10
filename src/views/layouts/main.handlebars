@@ -17,14 +17,14 @@
     <canvas id="humidityChart" width="0.5%" height="10%"></canvas>
 
     <script>
-        console.log({{this.dataValues.id}})
+        console.log({{this.id}})
         const temperatureData = []
         const humidityData = []
         const horarioData = []
 
         {{#each sensors}}
-            temperatureData.push({{this.dataValues.temperature}})
-            humidityData.push({{this.dataValues.humid}})
+            temperatureData.push({{this.temperature}})
+            humidityData.push({{this.humid}})
         {{/each}}
 
         const labels = Array.from({ length: temperatureData.length }, (_, i) => `Hour ${i}`);
