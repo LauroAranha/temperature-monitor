@@ -28,11 +28,17 @@ sequelize
 
 
 const Sensor = sequelize.define("sensor", {
-  temperatura: {
+  temperature: {
     type: DataTypes.INTEGER,
   },
-  umidade: {
+  humid: {
     type: DataTypes.INTEGER,
+  },
+  servoOpen: {
+    type: DataTypes.BOOLEAN
+  },
+  bombActive: {
+    type: DataTypes.BOOLEAN
   }
 });
 
