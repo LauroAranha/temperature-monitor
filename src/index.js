@@ -17,12 +17,6 @@ app.set('view engine', 'handlebars');
 
 app.set('views', path.join(__dirname, 'views/'));
 
-sequelize.sync().then(() => {
-  console.log("Database synchronized");
-}).catch((error) => {
-  console.error("Error synchronizing database:", error);
-});
-
 app.get("/", async (req, res) => {
   try {
     const sensors = await Sensor.findAll({

@@ -42,4 +42,10 @@ const Sensor = sequelize.define("sensor", {
   }
 });
 
+sequelize.sync().then(() => {
+  console.log("Database synchronized");
+}).catch((error) => {
+  console.error("Error synchronizing database:", error);
+});
+
 export { sequelize, Sensor };
