@@ -8,7 +8,7 @@
     <h1>Dados obtidos:</h1>
     <ul>
         {{#each sensors}}
-            <li>Temperatura: {{this.dataValues.temperatura}}, Umidade: {{this.dataValues.umidade}}</li>
+            <li>Temperatura: {{this.dataValues.temperature}}, Umidade: {{this.dataValues.humid}}</li>
         {{/each}}
     </ul>
 
@@ -23,8 +23,8 @@
         const horarioData = []
 
         {{#each sensors}}
-            temperatureData.push({{this.dataValues.temperatura}})
-            humidityData.push({{this.dataValues.umidade}})
+            temperatureData.push({{this.dataValues.temperature}})
+            humidityData.push({{this.dataValues.humid}})
         {{/each}}
 
         const labels = Array.from({ length: temperatureData.length }, (_, i) => `Hour ${i}`);

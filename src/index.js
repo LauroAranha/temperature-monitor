@@ -26,7 +26,7 @@ sequelize.sync().then(() => {
 app.get("/", async (req, res) => {
   try {
     const sensors = await Sensor.findAll({
-      attributes: ['temperatura', 'umidade', 'id', 'createdAt']
+      attributes: ['temperature', 'humid', 'servoOpen', 'bombActive', 'id', 'createdAt']
     });
 
     res.render("home", { sensors });
@@ -40,8 +40,10 @@ app.get("/", async (req, res) => {
 app.get("/cadastrar", async (req, res) => {
   try {
     await Sensor.create({
-      temperatura: req.query.temperatura,
-      umidade: req.query.umidade
+      temperature: req.query.temperature,
+      humid: req.query.humid,
+      bombActive: req.query.bombActive,
+      servoOpen: req.query.servoOpen
     });
   } catch (error) {
     console.error("Error inserting data:", error);
