@@ -1,7 +1,18 @@
 import express from 'express';
 import pool from './database.js';
+import { engine } from 'express-handlebars';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+
+app.set('views', path.join(__dirname, 'views/'));
 
 app.get("/", async (req, res) => {
   try {
@@ -25,8 +36,6 @@ app.get("/cadastrar", async (req, res) => {
     res.status(200).send("Data inserted successfully");
   } catch (error) {
     console.error("Error inserting data:", error);
-
-    // Send an error response
     res.status(500).send("Internal Server Error");
   }
 });
