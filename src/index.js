@@ -26,6 +26,30 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/dashboard", async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM sensors ORDER BY createdAt LIMIT 10');
+    const sensors = result.rows;
+    res.json(sensors)
+    console.log(sensors);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/current", async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM sensors ORDER BY createdAt LIMIT 1');
+    const sensors = result.rows;
+    res.json(sensors)
+    console.log(sensors);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get("/cadastrar", async (req, res) => {
   try {
     const { temperature, humid, bombActive, servoOpen } = req.query;
