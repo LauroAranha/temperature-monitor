@@ -3,12 +3,14 @@ import pool from './database.js';
 import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
+app.use(cors());
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
