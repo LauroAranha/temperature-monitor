@@ -1,9 +1,9 @@
-import express from 'express';
-import pool from './database.js';
-import { engine } from 'express-handlebars';
-import { fileURLToPath } from 'url';
-import path from 'path';
-import cors from 'cors';
+import express from "express";
+import pool from "./database.js";
+import { engine } from "express-handlebars";
+import { fileURLToPath } from "url";
+import path from "path";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,14 +11,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
+app.engine("handlebars", engine());
+app.set("view engine", "handlebars");
 
-app.set('views', path.join(__dirname, 'views/'));
+app.set("views", path.join(__dirname, "views/"));
 
 app.get("/", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM sensors');
+    const result = await pool.query("SELECT * FROM sensors");
     const sensors = result.rows;
     res.render("home", { sensors });
     console.log(sensors);
@@ -30,9 +30,11 @@ app.get("/", async (req, res) => {
 
 app.get("/dashboard", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM sensors ORDER BY createdAt LIMIT 10');
+    const result = await pool.query(
+      "SELECT * FROM sensors ORDER BY createdAt DESC LIMIT 10"
+    );
     const sensors = result.rows;
-    res.json(sensors)
+    res.json(sensors);
     console.log(sensors);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -42,9 +44,11 @@ app.get("/dashboard", async (req, res) => {
 
 app.get("/current", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM sensors ORDER BY createdAt LIMIT 1');
+    const result = await pool.query(
+      "SELECT * FROM sensors ORDER BY createdAt DESC LIMIT 1"
+    );
     const sensors = result.rows;
-    res.json(sensors)
+    res.json(sensors);
     console.log(sensors);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -55,7 +59,8 @@ app.get("/current", async (req, res) => {
 app.get("/cadastrar", async (req, res) => {
   try {
     const { temperature, humid, bombActive, servoOpen } = req.query;
-    const query = 'INSERT INTO sensors (temperature, humid, bombActive, servoOpen) VALUES ($1, $2, $3, $4)';
+    const query =
+      "INSERT INTO sensors (temperature, humid, bombActive, servoOpen) VALUES ($1, $2, $3, $4)";
     await pool.query(query, [temperature, humid, bombActive, servoOpen]);
 
     // Send a success response
