@@ -53,7 +53,7 @@ app.get("/average", async (req, res) => {
     const sensors = result.rows;
     const response = getAverage(sensors);
     res.json(response);
-    console.log(reponse);
+    console.log(response);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).send("Internal Server Error");
