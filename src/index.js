@@ -5,8 +5,6 @@ import { fileURLToPath } from "url";
 import path from "path";
 import cors from "cors";
 
-import { getAverage } from "./util/math.js";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -51,9 +49,8 @@ app.get("/average", async (req, res) => {
       "SELECT * FROM sensors ORDER BY createdAt DESC LIMIT 100"
     );
     const sensors = result.rows;
-    const response = getAverage(sensors);
-    res.json(response);
-    console.log(response);
+    res.json(sensors);
+    console.log(sensors);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).send("Internal Server Error");
