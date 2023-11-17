@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 import path from "path";
 import cors from "cors";
 
+import { getAverage } from "./util/math.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -42,14 +44,16 @@ app.get("/dashboard", async (req, res) => {
   }
 });
 
-app.get("/current", async (req, res) => {
+// Retorna as médias da temperatura e da humidade
+app.get("/average", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM sensors ORDER BY createdAt DESC LIMIT 1"
+      "SELECT * FROM sensors ORDER BY createdAt DESC LIMIT 100"
     );
     const sensors = result.rows;
-    res.json(sensors);
-    console.log(sensors);
+    const response = getAverage(sensors);
+    res.json(response);
+    console.log(reponse);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).send("Internal Server Error");
